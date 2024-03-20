@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 const Card = ({ room }) => {
-  console.log(room);
+  //   console.log(room);
   return (
     <Link to={`/room/${room?._id}`} className="col-span-1 cursor-pointer group">
       <div className="flex flex-col gap-2 w-full">

@@ -1,8 +1,8 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import qs from "query-string";
 
-const CategoryBox = ({ label, icon: Icon }) => {
-  //   console.log(category);
+const CategoryBox = ({ label, icon: Icon, selected }) => {
+  // console.log(selected);
 
   const [params, setParams] = useSearchParams();
   const navigate = useNavigate();
@@ -25,7 +25,9 @@ const CategoryBox = ({ label, icon: Icon }) => {
   return (
     <div
       onClick={handleClick}
-      className="flex flex-col items-center justify-center gap-2 p-3 border-b-2 hover:text-neutral-800 transition cursor-pointer"
+      className={`flex flex-col items-center justify-center gap-2 p-3 border-b-2 hover:text-neutral-800 transition cursor-pointer ${
+        selected ? "border-b-slate-900 text-neutral-800" : ""
+      }`}
     >
       <Icon size={26} />
       <div className="text-sm font-medium">{label}</div>
