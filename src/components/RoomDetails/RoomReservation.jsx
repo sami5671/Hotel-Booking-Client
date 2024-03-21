@@ -1,20 +1,20 @@
-import { formatDistance } from "date-fns";
+// import { formatDistance } from "date-fns";
 import Button from "../Button/Button";
-import DatePicker from "./DatePicker";
+// import Calender from "./Calender";
 
 const RoomReservation = ({ room }) => {
-  const { to, from, price } = room;
+  //   const { to, from, price } = room;
 
   // ===========price calculation=============
 
   // total days * price
 
-  const totalDays = parseInt(
-    formatDistance(new Date(to), new Date(from).split(" ")[0])
-  );
-  const totalPrice = totalDays * price;
+  //   const totalDays = parseInt(
+  //     formatDistance(new Date(to), new Date(from).split(" ")[0])
+  //   );
+  //   const totalPrice = totalDays * price;
 
-  console.log(totalPrice);
+  //   console.log(totalPrice);
   // ========================
   return (
     <div className="rounded-xl border-[1px] border-neutral-200 overflow-hidden bg-white">
@@ -26,9 +26,7 @@ const RoomReservation = ({ room }) => {
       <hr />
 
       {/* calender */}
-      <div className="flex justify-center">
-        <DatePicker />
-      </div>
+      <div className="flex justify-center">{/* <Calender /> */}</div>
 
       {/* button */}
       <div className="p-4">

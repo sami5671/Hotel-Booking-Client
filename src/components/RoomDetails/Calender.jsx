@@ -1,6 +1,6 @@
 import { DateRange } from "react-date-range";
 
-const DatePicker = () => {
+const Calender = () => {
   return (
     <DateRange
       rangeColors={["#F43F5E"]}
@@ -10,4 +10,4 @@ const DatePicker = () => {
   );
 };
 
-export default DatePicker;
+export default Calender;
