@@ -24,14 +24,14 @@ const SignUp = () => {
       const imageData = await imageUpload(image);
 
       //2. User Registration
-      // const result = await createUser(email, password);
+      const result = await createUser(email, password);
 
       //3. Save username & profile photo
-      // await updateUserProfile(name, imageData?.data?.display_url);
+      await updateUserProfile(name, imageData?.data?.display_url);
       // console.log(imageData);
 
       //4. save user data in database
-      // const dbResponse = await saveUser(result?.user);
+      const dbResponse = await saveUser(result?.user);
       console.log(imageData);
       // result.user.email
 
@@ -46,24 +46,24 @@ const SignUp = () => {
   };
 
   // Handle Google Signin
-  // const handleGoogleSignIn = async () => {
-  //   try {
-  //     //2. User Registration using google
-  //     const result = await signInWithGoogle();
+  const handleGoogleSignIn = async () => {
+    try {
+      //2. User Registration using google
+      const result = await signInWithGoogle();
 
-  //     //4. save user data in database
-  //     const dbResponse = await saveUser(result?.user);
-  //     console.log(dbResponse);
+      //4. save user data in database
+      const dbResponse = await saveUser(result?.user);
+      console.log(dbResponse);
 
-  //     //5. get token
-  //     await getToken(result?.user?.email);
-  //     navigate("/");
-  //     toast.success("Signup Successful");
-  //   } catch (err) {
-  //     console.log(err);
-  //     toast.error(err?.message);
-  //   }
-  // };
+      //5. get token
+      await getToken(result?.user?.email);
+      navigate("/");
+      toast.success("Signup Successful");
+    } catch (err) {
+      console.log(err);
+      toast.error(err?.message);
+    }
+  };
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
