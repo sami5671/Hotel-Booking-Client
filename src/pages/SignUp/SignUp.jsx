@@ -1,9 +1,9 @@
 import useAuth from "../../hooks/useAuth";
-import { toast } from "react-hot-toast";
-import { imageUpload } from "../../api/utils";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import { saveUser } from "../../api/auth";
+import { imageUpload } from "./../../api/utils";
+import { toast } from "react-hot-toast";
+import { getToken, saveUser } from "../../api/auth";
 
 const SignUp = () => {
   const { createUser, updateUserProfile, signInWithGoogle, loading } =
@@ -18,52 +18,33 @@ const SignUp = () => {
     const password = form.password.value;
     const image = form.image.files[0];
 
-    // console.log(name, email, password, image);
     try {
-      //1. Upload Image
+      // uploading img to imgBB
       const imageData = await imageUpload(image);
 
-      //2. User Registration
+      // user registration
       const result = await createUser(email, password);
-
-      //3. Save username & profile photo
+      console.log(result);
+      // save username and profile photo
       await updateUserProfile(name, imageData?.data?.display_url);
-      // console.log(imageData);
 
-      //4. save user data in database
-      const dbResponse = await saveUser(result?.user);
-      console.log(imageData);
-      // result.user.email
-
-      //5. get token
-      // await getToken(result?.user?.email);
-      // navigate("/");
-      // toast.success("Signup Successful");
-    } catch (err) {
-      console.log(err);
-      toast.error(err?.message);
-    }
-  };
-
-  // Handle Google Signin
-  const handleGoogleSignIn = async () => {
-    try {
-      //2. User Registration using google
-      const result = await signInWithGoogle();
-
-      //4. save user data in database
+      // save user data in database
       const dbResponse = await saveUser(result?.user);
       console.log(dbResponse);
-
       //5. get token
       await getToken(result?.user?.email);
       navigate("/");
       toast.success("Signup Successful");
+      // ----------------------------------------------------------------
     } catch (err) {
       console.log(err);
       toast.error(err?.message);
     }
+
+    // console.log(imageData);
+    // console.log(name, email, password, image);
   };
+
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
