@@ -1,5 +1,6 @@
 import axiosSecure from ".";
 
+// save user info into the database
 export const saveUser = async (user) => {
   const currentUser = {
     email: user.email,
@@ -14,5 +15,11 @@ export const saveUser = async (user) => {
 export const getToken = async (email) => {
   const { data } = await axiosSecure.post(`/jwt`, email);
   console.log("Token received from server------>", data);
+  return data;
+};
+
+// remove the token from the browser cookie
+export const clearCookie = async () => {
+  const { data } = await axiosSecure.get("/logout");
   return data;
 };

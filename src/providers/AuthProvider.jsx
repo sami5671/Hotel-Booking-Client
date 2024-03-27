@@ -12,8 +12,10 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { app } from "../firebase/firebase.config";
+import { clearCookie } from "./../api/auth";
 
 export const AuthContext = createContext(null);
+
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
@@ -41,8 +43,9 @@ const AuthProvider = ({ children }) => {
     return sendPasswordResetEmail(auth, email);
   };
 
-  const logOut = () => {
+  const logOut = async () => {
     setLoading(true);
+    await clearCookie(); // clearing cookie
     return signOut(auth);
   };
 

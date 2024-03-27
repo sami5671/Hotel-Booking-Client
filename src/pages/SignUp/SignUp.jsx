@@ -4,6 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import { imageUpload } from "./../../api/utils";
 import { toast } from "react-hot-toast";
 import { getToken, saveUser } from "../../api/auth";
+import { TbFidgetSpinner } from "react-icons/tb";
 
 const SignUp = () => {
   const { createUser, updateUserProfile, signInWithGoogle, loading } =
@@ -24,17 +25,17 @@ const SignUp = () => {
 
       // user registration
       const result = await createUser(email, password);
-      console.log(result);
+      // console.log(result);
       // save username and profile photo
       await updateUserProfile(name, imageData?.data?.display_url);
 
       // save user data in database
       const dbResponse = await saveUser(result?.user);
-      console.log(dbResponse);
+      // console.log(dbResponse);
       //5. get token
       await getToken(result?.user?.email);
       navigate("/");
-      toast.success("Signup Successful");
+      toast.success("SignUp Successful");
       // ----------------------------------------------------------------
     } catch (err) {
       console.log(err);
@@ -43,6 +44,28 @@ const SignUp = () => {
 
     // console.log(imageData);
     // console.log(name, email, password, image);
+  };
+
+  //---------------- handle Google Sign In --------------------
+  const handleGoogleSignIn = async () => {
+    try {
+      // user registration with google
+      const result = await signInWithGoogle();
+      // console.log(result);
+
+      // save user data in database
+      const dbResponse = await saveUser(result?.user);
+      // console.log(dbResponse);
+
+      //5. get token
+      await getToken(result?.user?.email);
+      navigate("/");
+      toast.success("SignUp Successful");
+      // ----------------------------------------------------------------
+    } catch (err) {
+      console.log(err);
+      toast.error(err?.message);
+    }
   };
 
   return (
@@ -121,23 +144,23 @@ const SignUp = () => {
               type="submit"
               className="bg-rose-500 w-full rounded-md py-3 text-white"
             >
-              {/* {loading ? (
+              {loading ? (
                 <TbFidgetSpinner className="animate-spin m-auto" />
               ) : (
                 "Continue"
-              )} */}
+              )}
             </button>
           </div>
         </form>
         <div className="flex items-center pt-4 space-x-1">
           <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
           <p className="px-3 text-sm dark:text-gray-400">
-            Signup with social accounts
+            SignUp with social accounts
           </p>
           <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
         </div>
         <div
-          // onClick={handleGoogleSignIn}
+          onClick={handleGoogleSignIn}
           className="flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer"
         >
           <FcGoogle size={32} />
@@ -145,7 +168,7 @@ const SignUp = () => {
           <p>Continue with Google</p>
         </div>
         <p className="px-6 text-sm text-center text-gray-400">
-          Already have an account?{" "}
+          Already have an account?
           <Link
             to="/login"
             className="hover:underline hover:text-rose-500 text-gray-600"
