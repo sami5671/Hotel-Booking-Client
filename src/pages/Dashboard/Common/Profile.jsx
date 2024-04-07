@@ -5,10 +5,12 @@ import useRole from "./../../../hooks/useRole";
 import { Helmet } from "react-helmet-async";
 import { toast } from "react-hot-toast";
 import ProfileUpdateModal from "./ProfileUpdateModal/ProfileUpdateModal";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
-  const { user, updateUserProfile } = useAuth();
+  const { user, updateUserProfile, resetPassword } = useAuth();
   const [role] = useRole();
+  const navigate = useNavigate();
 
   // ----------------------------------------------------------------
   const [isOpen, setIsOpen] = useState(false);
@@ -36,6 +38,16 @@ const Profile = () => {
       await updateUserProfile(name, imageData?.data?.display_url);
       setLoading(false);
       setIsOpen(false);
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error?.message);
+    }
+  };
+
+  const handleResetPassword = async () => {
+    try {
+      await resetPassword(user.email);
+      toast.success("Password reset email sent successfully!");
     } catch (error) {
       console.log(error.message);
       toast.error(error?.message);
@@ -89,7 +101,10 @@ const Profile = () => {
                 >
                   Update Profile
                 </button>
-                <button className="bg-[#F43F5E] px-7 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053]">
+                <button
+                  onClick={handleResetPassword}
+                  className="bg-[#F43F5E] px-7 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053]"
+                >
                   Change Password
                 </button>
                 <ProfileUpdateModal
