@@ -1,11 +1,48 @@
+import { useState } from "react";
+import { imageUpload } from "../../../api/utils";
 import useAuth from "./../../../hooks/useAuth";
 import useRole from "./../../../hooks/useRole";
 import { Helmet } from "react-helmet-async";
+import { toast } from "react-hot-toast";
+import ProfileUpdateModal from "./ProfileUpdateModal/ProfileUpdateModal";
 
 const Profile = () => {
-  const { user } = useAuth();
+  const { user, updateUserProfile } = useAuth();
   const [role] = useRole();
 
+  // ----------------------------------------------------------------
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const handleUpdateUserProfile = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    const form = event.target;
+    const name = form.name.value;
+    const image = form.image.files[0];
+
+    try {
+      // uploading img to imgBB
+      const imageData = await imageUpload(image);
+
+      // save username and profile photo
+      await updateUserProfile(name, imageData?.data?.display_url);
+      setLoading(false);
+      setIsOpen(false);
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error?.message);
+    }
+  };
+
+  // ----------------------------------------------------------------
   return (
     <div className="flex justify-center items-center h-screen">
       <Helmet>
@@ -46,12 +83,22 @@ const Profile = () => {
               </p>
 
               <div>
-                <button className="bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1">
+                <button
+                  onClick={openModal}
+                  className="bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1"
+                >
                   Update Profile
                 </button>
                 <button className="bg-[#F43F5E] px-7 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053]">
                   Change Password
                 </button>
+                <ProfileUpdateModal
+                  isOpen={isOpen}
+                  openModal={openModal}
+                  closeModal={closeModal}
+                  handleUpdateUserProfile={handleUpdateUserProfile}
+                  loading={loading}
+                />
               </div>
             </div>
           </div>

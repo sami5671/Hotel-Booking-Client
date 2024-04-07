@@ -18,7 +18,7 @@ const GuestMenu = () => {
   };
   const modalHandler = async () => {
     // request to be a host
-    console.log("request to be a host");
+    // console.log("request to be a host");
     try {
       const data = await becomeHost(user?.email);
       console.log(data);
