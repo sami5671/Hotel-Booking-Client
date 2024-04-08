@@ -29,7 +29,7 @@ const CategoryBox = ({ label, icon: Icon, selected }) => {
         selected ? "border-b-slate-900 text-neutral-800" : ""
       }`}
     >
-      <Icon size={26} />
+      <Icon size={50} />
       <div className="text-sm font-medium">{label}</div>
     </div>
   );
